@@ -1,1 +1,2 @@
-The number of arguments does not match the task condition.
+The number of arguments does not match the task condition
+The input should look like <file name> <text to search>

@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Исходные файлы\tests">
+      <UniqueIdentifier>{1f67cc31-408e-4e2e-9d89-6dc61ba1143c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -31,5 +34,37 @@
     <None Include="test.bat">
       <Filter>Исходные файлы</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="tests\emptyString-out.txt">
+      <Filter>Исходные файлы\tests</Filter>
+    </Text>
+    <Text Include="tests\fileMissing-out.txt">
+      <Filter>Исходные файлы\tests</Filter>
+    </Text>
+    <Text Include="tests\findTextFile-out.txt">
+      <Filter>Исходные файлы\tests</Filter>
+    </Text>
+    <Text Include="tests\noParams-out.txt">
+      <Filter>Исходные файлы\tests</Filter>
+    </Text>
+    <Text Include="tests\textFile.txt">
+      <Filter>Исходные файлы\tests</Filter>
+    </Text>
+    <Text Include="tests\textFileEmpty.txt">
+      <Filter>Исходные файлы\tests</Filter>
+    </Text>
+    <Text Include="tests\textFileEmpty-out.txt">
+      <Filter>Исходные файлы\tests</Filter>
+    </Text>
+    <Text Include="tests\textNotFound-out.txt">
+      <Filter>Исходные файлы\tests</Filter>
+    </Text>
+    <Text Include="tests\textRegister-out.txt">
+      <Filter>Исходные файлы\tests</Filter>
+    </Text>
+    <Text Include="tests\textRepeated-out.txt">
+      <Filter>Исходные файлы\tests</Filter>
+    </Text>
   </ItemGroup>
 </Project>

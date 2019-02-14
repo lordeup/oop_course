@@ -181,6 +181,18 @@
   <ItemGroup>
     <None Include="test.bat" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="tests\emptyString-out.txt" />
+    <Text Include="tests\fileMissing-out.txt" />
+    <Text Include="tests\findTextFile-out.txt" />
+    <Text Include="tests\noParams-out.txt" />
+    <Text Include="tests\textFile.txt" />
+    <Text Include="tests\textFileEmpty-out.txt" />
+    <Text Include="tests\textFileEmpty.txt" />
+    <Text Include="tests\textNotFound-out.txt" />
+    <Text Include="tests\textRegister-out.txt" />
+    <Text Include="tests\textRepeated-out.txt" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
