@@ -16,7 +16,7 @@ const std::string ERROR_NOT_ENOUGH_ARGUMENTS = "The number of arguments does not
 typedef float Matrix3x3[MAX_SIZE_MATRIX][MAX_SIZE_MATRIX];
 typedef float Matrix2x2[MAX_SIZE_SUBMATRIX][MAX_SIZE_SUBMATRIX];
 
-bool MatrixReader(Matrix3x3& matrix, std::string& fileName)
+bool IsMatrixReader(Matrix3x3& matrix, std::string& fileName)
 {
 	std::ifstream fileInput(fileName);
 
@@ -98,7 +98,7 @@ void CalculationMatrix(Matrix3x3& transposeMatrix, Matrix3x3& matrixCalc)
 	}
 }
 
-bool InvertMatrix(Matrix3x3& matrix, Matrix3x3& inverseMatrix)
+bool IsInvertMatrix(Matrix3x3& matrix, Matrix3x3& inverseMatrix)
 {
 	float determinant = DeterminantMatrix3x3(matrix);
 
@@ -155,23 +155,21 @@ int main(int argc, char* argv[])
 
 	Matrix3x3 matrix;
 
-	if (MatrixReader(matrix, fileName))
-	{
-		Matrix3x3 inverseMatrix;
-
-		if (!InvertMatrix(matrix, inverseMatrix))
-		{
-			std::cout << ERROR_DETERMINANT_NULL << std::endl;
-			return 1;
-		}
-
-		PrintInvertMatrix(inverseMatrix);
-	}
-	else
+	if (!IsMatrixReader(matrix, fileName))
 	{
 		std::cerr << ERROR_FILE_NOT_EXIST << std::endl;
 		return 1;
 	}
+
+	Matrix3x3 inverseMatrix;
+
+	if (!IsInvertMatrix(matrix, inverseMatrix))
+	{
+		std::cout << ERROR_DETERMINANT_NULL << std::endl;
+		return 1;
+	}
+
+	PrintInvertMatrix(inverseMatrix);
 
 	return 0;
 }
