@@ -11,11 +11,6 @@ fc %OUT% tests\noParams-out.txt
 if errorlevel 1 goto err
 echo Test: No params PASSED
 
-call %PROGRAM% "" > %OUT%
-fc %OUT% tests\emptyString-out.txt
-if not errorlevel 0 goto err
-echo Test: Empty search string PASSED
-
 call %PROGRAM% 400 > %OUT%
 fc %OUT% tests\test-400-out.txt
 if not errorlevel 0 goto err

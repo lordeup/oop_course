@@ -1,1 +1,1 @@
-You have entered too many numbers, it must be < 255
+The value must be a number from 0 to 255

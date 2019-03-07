@@ -1,11 +1,8 @@
 ﻿#include "pch.h"
 #include <iostream>
-#include <stdlib.h>
 #include <string>
 
-const std::string ERROR_LINE_EMPTY = "The line must be filled";
-const std::string ERROR_NUMBER = "You have entered too many numbers, it must be < 255";
-const std::string ERROR_ENTER_LINE = "You entered a string, but a number is required";
+const std::string ERROR_VALUE_NUMBER = "The value must be a number from 0 to 255";
 const std::string ERROR_NOT_ENOUGH_ARGUMENTS = "The number of arguments does not match the task condition\n"
 											   "Input should look: flipbyte.exe <input byte>";
 
@@ -21,6 +18,24 @@ unsigned int FlipByte(unsigned int number)
 	return resultByte;
 }
 
+bool IsCorrectNumber(std::string& line, int& number)
+{
+	try
+	{
+		number = std::stoi(line);
+	}
+	catch (const std::invalid_argument& err)
+	{
+		return false;
+	}
+
+	if (number < 0 || number > 255)
+	{
+		return false;
+	}
+	return true;
+}
+
 int main(int argc, char* argv[])
 {
 	if (argc != 2)
@@ -30,28 +45,11 @@ int main(int argc, char* argv[])
 	}
 
 	std::string line = argv[1];
-
-	if (line.empty())
-	{
-		std::cerr << ERROR_LINE_EMPTY << std::endl;
-		return 1;
-	}
-
 	int number;
 
-	try
+	if (!IsCorrectNumber(line, number))
 	{
-		number = std::stoi(line);
-	}
-	catch (const std::invalid_argument& err)
-	{
-		std::cerr << ERROR_ENTER_LINE << std::endl;
-		return 1;
-	}
-
-	if (number < 0 || number > 255)
-	{
-		std::cout << ERROR_NUMBER << std::endl;
+		std::cout << ERROR_VALUE_NUMBER << std::endl;
 		return 1;
 	}
 
