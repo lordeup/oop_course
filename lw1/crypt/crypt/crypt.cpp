@@ -102,13 +102,13 @@ int main(int argc, char* argv[])
 
 	if (!IsCorrectMode(operatingMode, mode))
 	{
-		std::cerr << ERROR_UNKNOWN_MODE << std::endl;
+		std::cout << ERROR_UNKNOWN_MODE << std::endl;
 		return 1;
 	}
 
 	if (!IsCorrectNumber(line, key))
 	{
-		std::cerr << ERROR_NUMBER << std::endl;
+		std::cout << ERROR_NUMBER << std::endl;
 		return 1;
 	}
 
@@ -117,7 +117,7 @@ int main(int argc, char* argv[])
 
 	if (!fileInput.is_open() || !fileOutput.is_open())
 	{
-		std::cerr << ERROR_FILE_NOT_EXIST << std::endl;
+		std::cout << ERROR_FILE_NOT_EXIST << std::endl;
 		return 1;
 	}
 

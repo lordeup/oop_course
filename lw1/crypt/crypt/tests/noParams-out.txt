@@ -1,0 +1,2 @@
+The number of arguments does not match the task condition
+Input should look: crypt.exe crypt or decrypt <input file> <output file> <key>
