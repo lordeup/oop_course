@@ -74,7 +74,7 @@ bool IsCorrectNumber(std::string& line, Key& key)
 	{
 		key = std::stoi(line);
 	}
-	catch (const std::invalid_argument& err)
+	catch (const std::invalid_argument&)
 	{
 		return false;
 	}
