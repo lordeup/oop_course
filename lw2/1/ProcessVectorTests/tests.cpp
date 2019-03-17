@@ -1,6 +1,6 @@
 #include "pch.h"
-#include "lw2/VectorProgram/ProcessVector.h"
-#include "lw2/VectorProgram/Vector.h"
+#include "lw2/1/ProcessVector/ProcessVector.h"
+#include "lw2/1/ProcessVector/Vector.h"
 
 TEST_CASE("FindingMinElement Zero")
 {

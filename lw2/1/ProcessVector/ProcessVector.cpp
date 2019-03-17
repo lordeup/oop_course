@@ -1,4 +1,4 @@
-#include "pch.h"
+﻿#include "pch.h"
 #include "ProcessVector.h"
 
 double FindingMinElement(const vecNumber& numbers)
