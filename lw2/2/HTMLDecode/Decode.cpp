@@ -3,29 +3,30 @@
 
 char GetCharacter(std::string const& strElement)
 {
-	if (strElement == QUOTES)
+	char empty = ' ';
+	if (strElement == QUOTES.code)
 	{
-		return '"';
+		return QUOTES.symbol;
 	}
-	else if (strElement == APOSTROPHE)
+	else if (strElement == APOSTROPHE.code)
 	{
-		return '\'';
+		return APOSTROPHE.symbol;
 	}
-	else if (strElement == LESS_TOKEN)
+	else if (strElement == LESS_TOKEN.code)
 	{
-		return '<';
+		return LESS_TOKEN.symbol;
 	}
-	else if (strElement == GREATER_TOKEN)
+	else if (strElement == GREATER_TOKEN.code)
 	{
-		return '>';
+		return GREATER_TOKEN.symbol;
 	}
-	else if (strElement == AMPERSAND)
+	else if (strElement == AMPERSAND.code)
 	{
-		return '&';
+		return AMPERSAND.symbol;
 	}
 	else
 	{
-		return ' ';
+		return empty;
 	}
 }
 

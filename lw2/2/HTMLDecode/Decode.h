@@ -5,11 +5,17 @@
 const char START_DECODE = '&';
 const char END_DECODE = ';';
 
-const std::string QUOTES = "&quot;";
-const std::string APOSTROPHE = "&apos;";
-const std::string LESS_TOKEN = "&lt;";
-const std::string GREATER_TOKEN = "&gt;";
-const std::string AMPERSAND = "&amp;";
+struct HtmlDecoder
+{
+	std::string code;
+	char symbol;
+};
+
+const HtmlDecoder QUOTES = { "&quot;", '"' };
+const HtmlDecoder APOSTROPHE = { "&apos;", '\'' };
+const HtmlDecoder LESS_TOKEN = { "&lt;", '<' };
+const HtmlDecoder GREATER_TOKEN = { "&gt;", '>' };
+const HtmlDecoder AMPERSAND = { "&amp;", '&' };
 
 char GetCharacter(std::string const& strElement);
 std::string HtmlDecode(std::string const& html);
