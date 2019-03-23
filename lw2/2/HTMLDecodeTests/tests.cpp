@@ -8,13 +8,27 @@ TEST_CASE("GetCharacter")
 	CHECK(GetCharacter(LESS_TOKEN.code) == LESS_TOKEN.symbol);
 	CHECK(GetCharacter(GREATER_TOKEN.code) == GREATER_TOKEN.symbol);
 	CHECK(GetCharacter(AMPERSAND.code) == AMPERSAND.symbol);
-	CHECK(GetCharacter("Hello") == ' ');
+	CHECK(GetCharacter("Hello") == "");
 }
 
 TEST_CASE("HtmlDecode test cat")
 {
 	std::string strIn = "Cat &lt;says&gt; &quot;Meow&quot;. M&amp;M&apos;s";
 	std::string strOut = "Cat <says> \"Meow\". M&M's";
+	CHECK(HtmlDecode(strIn) == strOut);
+}
+
+TEST_CASE("HtmlDecode test1 multi")
+{
+	std::string strIn = "&&amp;";
+	std::string strOut = "&&";
+	CHECK(HtmlDecode(strIn) == strOut);
+}
+
+TEST_CASE("HtmlDecode test2 multi")
+{
+	std::string strIn = "&&&&&amp; &&lt;hello&&&gt; &&&&&apos;&&hello&c";
+	std::string strOut = "&&&&& &<hello&&> &&&&'&&hello&c";
 	CHECK(HtmlDecode(strIn) == strOut);
 }
 

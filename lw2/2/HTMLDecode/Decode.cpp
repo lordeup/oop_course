@@ -1,9 +1,10 @@
 #include "pch.h"
 #include "Decode.h"
 
-char GetCharacter(std::string const& strElement)
+
+std::string GetCharacter(std::string const& strElement)
 {
-	char empty = ' ';
+	std::string empty;
 	if (strElement == QUOTES.code)
 	{
 		return QUOTES.symbol;
@@ -34,21 +35,35 @@ std::string HtmlDecode(std::string const& html)
 {
 	std::string resultStr;
 	int shift;
-
 	for (auto it = html.begin(); it != html.end(); it += shift)
 	{
 		shift = 1;
-		if ((*it) != START_DECODE)
+		if (*it == START_DECODE)
 		{
-			resultStr += (*it);
+			if (*(it + 1) == START_DECODE)
+			{
+				resultStr += (*it);
+			}
+			else
+			{
+				shift = std::find(it, html.end(), END_DECODE) - it + 1;
+				std::string strSub = html.substr((it - html.begin()), shift);
+				std::string str = GetCharacter(strSub);
+				if (str != "")
+				{
+					resultStr += str;
+				}
+				else
+				{
+					resultStr += (*it);
+					shift = 1;
+				}
+			}
 		}
 		else
 		{
-			shift = std::find(it, html.end(), END_DECODE) - it + 1;
-			std::string strSub = html.substr((it - html.begin()), shift);
-			resultStr += GetCharacter(strSub);
+			resultStr += (*it);
 		}
 	}
-
 	return resultStr;
 }
