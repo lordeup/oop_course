@@ -1,6 +1,6 @@
 #include "pch.h"
-#include "lw2/1/ProcessVector/ProcessVector.h"
-#include "lw2/1/ProcessVector/Vector.h"
+#include "../../1/ProcessVector/ProcessVector.h"
+#include "../../1/ProcessVector/Vector.h"
 
 TEST_CASE("FindingMinElement Zero")
 {
@@ -44,9 +44,3 @@ TEST_CASE("FillVector")
 	FillVector(numbers);
 	CHECK(numbers == vecNumber{ 18.0, -2.0, 15.0, 23.2, 19.0 });
 }
-
-//TEST_CASE("FillVector input error")
-//{
-//	vecNumber numbers{ 23.2, 53.5, 453.8 };
-//	CHECK(FillVector(numbers) == false);
-//}
