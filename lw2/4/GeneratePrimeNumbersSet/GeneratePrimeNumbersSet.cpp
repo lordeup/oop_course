@@ -36,6 +36,11 @@ int main(int argc, char* argv[])
 		return 1;
 	}
 
+	if (upperBound < 2)
+	{
+		return 1;
+	}
+
 	std::set<int> prime = GeneratePrimeNumbersSet(upperBound);
 
 	PrintPrimeNumbers(prime);
