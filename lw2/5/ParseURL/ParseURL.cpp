@@ -46,8 +46,8 @@ int GetPort(const Protocol& protocol)
 
 bool ParseURL(std::string const& url, Protocol& protocol, int& port, std::string& host, std::string& document)
 {
-	std::regex strRegex("(http|HTTP|https|HTTPS|ftp|FTP)://([[:alnum:]-\\.]+):([\\d]+)/([\\S]+)");
-	std::regex strRegexPortDefault("(http|HTTP|https|HTTPS|ftp|FTP)://([[:alnum:]-\\.]+)/([\\S]+)");
+	std::regex strRegex("(http|HTTP|https|HTTPS|ftp|FTP)://([[:alnum:]-\\.]+):([\\d]+)/([\\S]*)");
+	std::regex strRegexPortDefault("(http|HTTP|https|HTTPS|ftp|FTP)://([[:alnum:]-\\.]+)/([\\S]*)");
 	std::smatch match;
 
 	if (regex_match(url, match, strRegex))
