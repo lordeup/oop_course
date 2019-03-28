@@ -4,6 +4,7 @@
 std::vector<bool> InitVectorOfPrimes(int upperBound)
 {
 	std::vector<bool> prime(upperBound + 1, true);
+	prime[0] = prime[1] = false;
 	for (int i = FIRST_PRIME; i * i <= upperBound; ++i)
 	{
 		if (prime[i])
