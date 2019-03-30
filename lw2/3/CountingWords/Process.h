@@ -2,10 +2,9 @@
 
 #include <algorithm>
 #include <map>
+#include <sstream>
 #include <string>
-#include <iostream>
 
-typedef std::map<std::string, int> Word;
+typedef std::map<std::string, int> WordFrequency;
 
-Word CountWord(Word& word, std::string& str);
-void PrintCountWord(Word& word);
+WordFrequency CountWord(std::string& str);

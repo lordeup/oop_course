@@ -1,7 +1,15 @@
 ﻿#include "pch.h"
 #include "Process.h"
-#include <sstream>
+#include <iostream>
 #include <Windows.h>
+
+void PrintCountWord(WordFrequency& word)
+{
+	for (auto s : word)
+	{
+		std::cout << s.first << " -> " << s.second << std::endl;
+	}
+}
 
 int main()
 {
@@ -9,16 +17,10 @@ int main()
 	SetConsoleOutputCP(1251);
 	setlocale(LC_ALL, "Russian");
 
-	Word word;
-
 	std::string str;
 	std::getline(std::cin, str);
-	std::istringstream iss(str);
 
-	while (iss >> str)
-	{
-		CountWord(word, str);
-	}
+	WordFrequency word = CountWord(str);
 
 	PrintCountWord(word);
 
