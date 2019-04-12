@@ -21,6 +21,9 @@ TEST_CASE("Car TurnOnEngine")
 	CHECK(car.GetDirection() == "STAY");
 	CHECK(car.GetGear() == "NEUTRAL");
 	CHECK(car.GetSpeed() == 0);
+
+	CHECK(car.SetGear(1) == true);
+	CHECK(car.SetGear(1) == true);
 }
 
 TEST_CASE("Car TurnOffEngine")
@@ -36,7 +39,7 @@ TEST_CASE("Car TurnOffEngine")
 	car.TurnOnEngine();
 	CHECK(car.GetTurnEngine() == true);
 
-	CHECK(car.SetGear(1));
+	CHECK(car.SetGear(1) == true);
 	CHECK(car.TurnOffEngine() == false);
 	CHECK(car.GetGear() == "FIRST");
 
@@ -44,7 +47,7 @@ TEST_CASE("Car TurnOffEngine")
 	CHECK(car.TurnOffEngine() == false);
 	CHECK(car.GetSpeed() == 15);
 
-	CHECK(car.SetGear(0));
+	CHECK(car.SetGear(0) == true);
 	CHECK(car.TurnOffEngine() == false);
 	CHECK(car.GetSpeed() == 15);
 	CHECK(car.GetGear() == "NEUTRAL");
@@ -121,6 +124,16 @@ TEST_CASE("Car SetGear, SetSpeed REVERSE")
 	CHECK(car.SetGear(1) == false);
 	CHECK(car.SetSpeed(0) == true);
 	CHECK(car.SetGear(1) == true);
+}
+
+TEST_CASE("Car SetGear, SetSpeed NEUTRAL")
+{
+	CCar car;
+	car.TurnOnEngine();
+	CHECK(car.GetTurnEngine() == true);
+
+	CHECK(car.SetSpeed(15) == false);
+	CHECK(car.SetSpeed(0) == true);
 }
 
 TEST_CASE("Car SetGear, SetSpeed FIRST")
