@@ -99,6 +99,11 @@ bool CCar::SetGear(int gear)
 		return false;
 	}
 
+	if (m_gear == Gear(gear))
+	{
+		return true;
+	}
+
 	if (m_gear == Gear::REVERSE && gear == 1)
 	{
 		if (m_speed == 0)
@@ -111,7 +116,12 @@ bool CCar::SetGear(int gear)
 
 	if (m_gear == Gear::NEUTRAL && gear == 1 && m_speed == 0)
 	{
-		if (m_direction == Direction::STAY)
+		if (m_direction == Direction::BACK)
+		{
+			m_direction = Direction::STAY;
+			return false;
+		}
+		else
 		{
 			m_gear = Gear::FIRST;
 			return true;
@@ -169,16 +179,7 @@ bool CCar::SetSpeed(int speed)
 	case Gear::REVERSE:
 		return SetSpeedCheck(speed, SPEED_STAY, Direction::STAY) || SetSpeedCheck(speed, REVERSE_SPEED_NOT_NULL, Direction::BACK);
 	case Gear::NEUTRAL:
-
-		if ((m_speed - speed) >= 0)
-		{
-			return SetSpeedCheck(speed, SPEED_STAY, Direction::STAY) || SetSpeedCheck(speed, NEUTRAL_SPEED_NOT_NULL, Direction::FORWARD);
-		}
-		else
-		{
-			return false;
-		}
-
+		return SetSpeedCheck(speed, SPEED_STAY, Direction::STAY);
 	case Gear::FIRST:
 		return SetSpeedCheck(speed, SPEED_STAY, Direction::STAY) || SetSpeedCheck(speed, FIRST_SPEED_NOT_NULL, Direction::FORWARD);
 	case Gear::SECOND:

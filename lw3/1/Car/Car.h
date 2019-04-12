@@ -45,10 +45,7 @@ private:
 	bool SetSpeedCheck(int speed, GearOfSpeed gearOfSpeed, Direction direction);
 
 	const GearOfSpeed SPEED_STAY = { 0, 0 };
-	const GearOfSpeed REVERSE_SPEED = { 0, 20 };
 	const GearOfSpeed REVERSE_SPEED_NOT_NULL = { 1, 20 };
-	const GearOfSpeed NEUTRAL_SPEED = { 0, 150 };
-	const GearOfSpeed NEUTRAL_SPEED_NOT_NULL = { 1, 150 };
 	const GearOfSpeed FIRST_SPEED = { 0, 30 };
 	const GearOfSpeed FIRST_SPEED_NOT_NULL = { 1, 30 };
 	const GearOfSpeed SECOND_SPEED = { 20, 50 };
