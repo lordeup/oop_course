@@ -12,7 +12,7 @@ CCarCommunication::CCarCommunication(std::istream& input, std::ostream& output, 
 
 void CCarCommunication::PrintInfo(CCar& car)
 {
-	m_output << ENGINE_CONDITION_INFO << car.GetTurnEngine() << std::endl;
+	m_output << ENGINE_CONDITION_INFO << car.GetEngine() << std::endl;
 	m_output << DIRECTION_INFO << car.GetDirection() << std::endl;
 	m_output << SPEED_INFO << car.GetSpeed() << std::endl;
 	m_output << GEAR_INFO << car.GetGear() << std::endl;
@@ -66,7 +66,6 @@ void CCarCommunication::SetSpeedMode(CCar& car)
 	{
 		m_output << ERROR_NON_NUMBER;
 	}
-
 	else if (number < SPEED_MIN || number > SPEED_MAX)
 	{
 		m_output << ERROR_SET_SPEED_NUMBER_OUTSIDE;

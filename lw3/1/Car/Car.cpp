@@ -19,6 +19,11 @@ int CCar::GetSpeed() const
 	return m_speed;
 }
 
+std::string CCar::GetEngine() const
+{
+	return GetTurnEngine() ? "ON" : "OFF";
+}
+
 std::string CCar::GetGear() const
 {
 	switch (m_gear)

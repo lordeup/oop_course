@@ -8,6 +8,7 @@ public:
 
 	std::string GetGear() const;
 	std::string GetDirection() const;
+	std::string GetEngine() const;
 	int GetSpeed() const;
 	bool GetTurnEngine() const;
 
