@@ -1,9 +1,9 @@
 #include "CLineSegment.h"
 
-CLineSegment::CLineSegment(const uint32_t outlineColor, CPoint& startPoint, CPoint& endPoint)
-	: m_outlineColor(outlineColor)
-	, m_startPoint(startPoint)
+CLineSegment::CLineSegment(CPoint& startPoint, CPoint& endPoint, const std::string outlineColor)
+	: m_startPoint(startPoint)
 	, m_endPoint(endPoint)
+	, m_outlineColor(outlineColor)
 {
 }
 
@@ -14,10 +14,20 @@ double CLineSegment::GetArea() const
 
 double CLineSegment::GetPerimeter() const
 {
-	return sqrt(pow(m_endPoint.GetX() - m_startPoint.GetX(), 2) + pow(m_endPoint.GetY() - m_startPoint.GetY(), 2));
+	return sqrt(pow(m_endPoint.GetX() - m_startPoint.GetX(), POWER_NUMBER) + pow(m_endPoint.GetY() - m_startPoint.GetY(), POWER_NUMBER));
 }
 
-uint32_t CLineSegment::GetOutlineColor() const
+void CLineSegment::PrintInfo(std::ostream& iss) const
+{
+	iss << FIGURE_LINE << std::endl;
+	iss << AREA_SHAPE << GetArea() << std::endl;
+	iss << PERIMETER_SHAPE << GetPerimeter() << std::endl;
+	iss << START_POINT_LINE << GetStartPoint().GetX() << SPACE << GetStartPoint().GetY() << std::endl;
+	iss << END_POINT_LINE << GetEndPoint().GetX() << SPACE << GetEndPoint().GetY() << std::endl;
+	iss << OUTLINE_COLOR_SHAPE << GetOutlineColor() << std::endl;
+}
+
+std::string CLineSegment::GetOutlineColor() const
 {
 	return m_outlineColor;
 }

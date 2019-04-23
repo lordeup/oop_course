@@ -1,6 +1,5 @@
 #pragma once
-#include <stdint.h>
-#include <string>
+#include "Const.h"
 
 class IShape
 {
@@ -10,6 +9,6 @@ public:
 
 	virtual double GetArea() const = 0;
 	virtual double GetPerimeter() const = 0;
-	virtual std::string ToString() const = 0;
-	virtual uint32_t GetOutlineColor() const = 0;
+	virtual void PrintInfo(std::ostream& iss) const = 0;
+	virtual std::string GetOutlineColor() const = 0;
 };

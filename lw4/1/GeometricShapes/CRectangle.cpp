@@ -1,13 +1,25 @@
 #include "CRectangle.h"
 
-CRectangle::CRectangle(const uint32_t fillColor, const uint32_t outlineColor, CPoint& leftTop, CPoint& rightBottom, const double width, const double height)
-	: m_fillColor(fillColor)
-	, m_outlineColor(outlineColor)
-	, m_leftTop(leftTop)
-	, m_rightBottom(rightBottom)
+CRectangle::CRectangle(CPoint& leftTop, const double width, const double height, const std::string outlineColor, const std::string fillColor)
+	: m_leftTop(leftTop)
 	, m_width(width)
 	, m_height(height)
+	, m_outlineColor(outlineColor)
+	, m_fillColor(fillColor)
 {
+}
+
+void CRectangle::PrintInfo(std::ostream& iss) const
+{
+	iss << FIGURE_RECTANGLE << std::endl;
+	iss << AREA_SHAPE << GetArea() << std::endl;
+	iss << PERIMETER_SHAPE << GetPerimeter() << std::endl;
+	iss << LEFT_TOP_RECTANGLE << GetLeftTop().GetX() << SPACE << GetLeftTop().GetY() << std::endl;
+	iss << RIGHT_BOTTOM_RECTANGLE << GetRightBottom().GetX() << SPACE << GetRightBottom().GetY() << std::endl;
+	iss << WIDTH_RECTANGLE << GetWidth() << std::endl;
+	iss << HEIGHT_RECTANGLE << GetHeight() << std::endl;
+	iss << OUTLINE_COLOR_SHAPE << GetOutlineColor() << std::endl;
+	iss << FILL_COLOR_SHAPE << GetFillColor() << std::endl;
 }
 
 double CRectangle::GetArea() const
@@ -17,15 +29,15 @@ double CRectangle::GetArea() const
 
 double CRectangle::GetPerimeter() const
 {
-	return (m_width + m_height) * 2;
+	return (m_width + m_height) * MULTIPLICATION_FACTOR;
 }
 
-uint32_t CRectangle::GetOutlineColor() const
+std::string CRectangle::GetOutlineColor() const
 {
 	return m_outlineColor;
 }
 
-uint32_t CRectangle::GetFillColor() const
+std::string CRectangle::GetFillColor() const
 {
 	return m_fillColor;
 }
@@ -37,7 +49,8 @@ CPoint CRectangle::GetLeftTop() const
 
 CPoint CRectangle::GetRightBottom() const
 {
-	return m_rightBottom;
+	CPoint rightBottom(m_leftTop.GetX() + m_width, m_leftTop.GetY() + m_height);
+	return rightBottom;
 }
 
 double CRectangle::GetWidth() const

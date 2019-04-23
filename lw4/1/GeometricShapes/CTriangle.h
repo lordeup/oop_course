@@ -5,14 +5,14 @@
 class CTriangle : public ISolidShape
 {
 public:
-	CTriangle(const uint32_t fillColor, const uint32_t outlineColor, CPoint& vertex1, CPoint& vertex2, CPoint& vertex3);
+	CTriangle(CPoint& vertex1, CPoint& vertex2, CPoint& vertex3, const std::string outlineColor, const std::string fillColor);
 	virtual ~CTriangle() = default;
 
 	double GetArea() const override;
 	double GetPerimeter() const override;
-	//std::string ToString() const override;
-	uint32_t GetOutlineColor() const override;
-	uint32_t GetFillColor() const override;
+	void PrintInfo(std::ostream& iss) const override;
+	std::string GetOutlineColor() const override;
+	std::string GetFillColor() const override;
 
 	CPoint GetVertex1() const;
 	CPoint GetVertex2() const;
@@ -21,8 +21,9 @@ public:
 private:
 	double GetSideCounting(const CPoint& firstPoint, const CPoint& secondPoint) const;
 
-	uint32_t m_fillColor;
-	uint32_t m_outlineColor;
+	std::string m_fillColor;
+	std::string m_outlineColor;
+
 	CPoint m_vertex1;
 	CPoint m_vertex2;
 	CPoint m_vertex3;

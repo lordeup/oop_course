@@ -1,11 +1,10 @@
 #include "CCircle.h"
 
-CCircle::CCircle(const uint32_t fillColor, const uint32_t outlineColor, CPoint& center, const double radius)
-	: m_fillColor(fillColor)
-	, m_outlineColor(outlineColor)
-	, m_center(center)
+CCircle::CCircle(CPoint& center, const double radius, const std::string outlineColor, const std::string fillColor)
+	: m_center(center)
 	, m_radius(radius)
-
+	, m_outlineColor(outlineColor)
+	, m_fillColor(fillColor)
 {
 }
 
@@ -16,15 +15,26 @@ double CCircle::GetArea() const
 
 double CCircle::GetPerimeter() const
 {
-	return 2 * M_PI * m_radius;
+	return MULTIPLICATION_FACTOR * M_PI * m_radius;
 }
 
-uint32_t CCircle::GetOutlineColor() const
+void CCircle::PrintInfo(std::ostream& iss) const
+{
+	iss << FIGURE_CIRCLE << std::endl;
+	iss << AREA_SHAPE << GetArea() << std::endl;
+	iss << PERIMETER_SHAPE << GetPerimeter() << std::endl;
+	iss << CENTER_CIRCLE << GetCenter().GetX() << SPACE << GetCenter().GetY() << std::endl;
+	iss << RADIUS_CIRCLE << GetRadius() << std::endl;
+	iss << OUTLINE_COLOR_SHAPE << GetOutlineColor() << std::endl;
+	iss << FILL_COLOR_SHAPE << GetFillColor() << std::endl;
+}
+
+std::string CCircle::GetOutlineColor() const
 {
 	return m_outlineColor;
 }
 
-uint32_t CCircle::GetFillColor() const
+std::string CCircle::GetFillColor() const
 {
 	return m_fillColor;
 }
