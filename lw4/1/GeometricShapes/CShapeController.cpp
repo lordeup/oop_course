@@ -41,7 +41,7 @@ std::shared_ptr<CTriangle> CShapeController::CreateTriangle(std::istream& iss)
 	iss >> outlineColor;
 	iss >> fillColor;
 
-	CPoint vertex1(x1, y2);
+	CPoint vertex1(x1, y1);
 	CPoint vertex2(x2, y2);
 	CPoint vertex3(x3, y3);
 
@@ -79,7 +79,7 @@ std::shared_ptr<CLineSegment> CShapeController::CreateLine(std::istream& iss)
 
 	iss >> outlineColor;
 
-	CPoint startPoint(x1, y2);
+	CPoint startPoint(x1, y1);
 	CPoint endPoint(x2, y2);
 
 	return std::make_shared<CLineSegment>(startPoint, endPoint, outlineColor);
@@ -88,71 +88,87 @@ std::shared_ptr<CLineSegment> CShapeController::CreateLine(std::istream& iss)
 void CShapeController::ProcessingCommand()
 {
 	std::string str;
-	std::getline(m_input, str);
 
-	std::istringstream iss(str);
+	while (std::getline(m_input, str))
+	{
+		std::istringstream iss(str);
 
-	std::string figure;
-	iss >> figure;
-	std::shared_ptr<IShape> shape;
+		std::string figure;
+		iss >> figure;
+		std::shared_ptr<IShape> shape;
 
-	if (figure == FIGURE_RECTANGLE)
-	{
-		shape = CreateRectangle(iss);
+		if (figure == FIGURE_RECTANGLE)
+		{
+			shape = CreateRectangle(iss);
+			m_shape.push_back(shape);
+		}
+		else if (figure == FIGURE_TRIANGLE)
+		{
+			shape = CreateTriangle(iss);
+			m_shape.push_back(shape);
+		}
+		else if (figure == FIGURE_CIRCLE)
+		{
+			shape = CreateCircle(iss);
+			m_shape.push_back(shape);
+		}
+		else if (figure == FIGURE_LINE)
+		{
+			shape = CreateLine(iss);
+			m_shape.push_back(shape);
+		}
+		else
+		{
+			m_output << FIGURE_UNKNOWN;
+		}
 	}
-	else if (figure == FIGURE_TRIANGLE)
-	{
-		shape = CreateTriangle(iss);
-	}
-	else if (figure == FIGURE_CIRCLE)
-	{
-		shape = CreateCircle(iss);
-	}
-	else if (figure == FIGURE_LINE)
-	{
-		shape = CreateLine(iss);
-	}
-	else
-	{
-		m_output << FIGURE_UNKNOWN;
-	}
-
-	m_shape.push_back(shape);
 }
 
 void CShapeController::PrintShapeMaxArea()
 {
-	if (!m_shape.empty())
+	auto shapeMaxArea = m_shape[0];
+	for (const auto& value : m_shape)
 	{
-		auto shapeMaxArea = m_shape[0];
-		for (const auto& value : m_shape)
+		if (value->GetArea() > shapeMaxArea->GetArea())
 		{
-			if (value->GetArea() > shapeMaxArea->GetArea())
-			{
-				shapeMaxArea = value;
-			}
+			shapeMaxArea = value;
 		}
-
-		m_output << MAX_AREA_SHAPE;
-		shapeMaxArea->PrintInfo(m_output);
-		m_output << std::endl;
 	}
+
+	m_output << MAX_AREA_SHAPE;
+	shapeMaxArea->PrintInfo(m_output);
+	m_output << std::endl;
 }
 
 void CShapeController::PrintShapeMinPerimeter()
 {
-	if (!m_shape.empty())
+	auto shapeMinPerimeter = m_shape[0];
+	for (const auto& value : m_shape)
 	{
-		auto shapeMinPerimeter = m_shape[0];
-		for (const auto& value : m_shape)
+		if (value->GetPerimeter() < shapeMinPerimeter->GetPerimeter())
 		{
-			if (value->GetPerimeter() < shapeMinPerimeter->GetPerimeter())
-			{
-				shapeMinPerimeter = value;
-			}
+			shapeMinPerimeter = value;
 		}
+	}
 
-		m_output << MIN_PERIMETER_SHAPE;
-		shapeMinPerimeter->PrintInfo(m_output);
+	m_output << MIN_PERIMETER_SHAPE;
+	shapeMinPerimeter->PrintInfo(m_output);
+}
+
+void CShapeController::PrintShapeInfo()
+{
+	if (m_shape.empty())
+	{
+		m_output << ERROR_EMPTY_INPUT << std::endl;
+	}
+	else if (m_shape.size() == 1)
+	{
+		auto shapeInfo = m_shape[0];
+		shapeInfo->PrintInfo(m_output);
+	}
+	else
+	{
+		PrintShapeMaxArea();
+		PrintShapeMinPerimeter();
 	}
 }

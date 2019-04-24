@@ -1,5 +1,4 @@
 #pragma once
-#include <fstream>
 #include <sstream>
 #include <string>
 
@@ -10,12 +9,13 @@ const int ROUNDING_FACTOR = 3;
 const std::string ERROR_FILE_NOT_EXIST = "This file does not exist";
 const std::string ERROR_NOT_ENOUGH_ARGUMENTS = "The number of arguments does not match the task condition\n"
 											   "Input should look: GeometricShapes.exe <input file>\n";
+const std::string ERROR_EMPTY_INPUT = "You have not created a shape";
 
 const std::string FIGURE_RECTANGLE = "rectangle";
 const std::string FIGURE_TRIANGLE = "triangle";
 const std::string FIGURE_CIRCLE = "circle";
 const std::string FIGURE_LINE = "line";
-const std::string FIGURE_UNKNOWN = "Unknown figure";
+const std::string FIGURE_UNKNOWN = "Unknown figure\n";
 
 const std::string PERIMETER_SHAPE = "Perimeter ";
 const std::string AREA_SHAPE = "Area ";

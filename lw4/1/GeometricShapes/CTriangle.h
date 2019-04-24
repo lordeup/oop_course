@@ -1,5 +1,6 @@
 #pragma once
 #include "CPoint.h"
+#include "Const.h"
 #include "ISolidShape.h"
 
 class CTriangle : public ISolidShape

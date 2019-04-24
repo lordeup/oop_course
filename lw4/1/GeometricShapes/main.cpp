@@ -1,7 +1,7 @@
 ﻿#include "pch.h"
 #include "CShapeController.h"
-#include "Const.h"
 #include <iostream>
+#include <fstream>
 
 int main(int argc, char* argv[])
 {
@@ -21,13 +21,9 @@ int main(int argc, char* argv[])
 
 	CShapeController shapeController(fileInput, std::cout);
 
-	while (!fileInput.eof())
-	{
-		shapeController.ProcessingCommand();
-	}
-
-	shapeController.PrintShapeMaxArea();
-	shapeController.PrintShapeMinPerimeter();
+	shapeController.ProcessingCommand();
+	
+	shapeController.PrintShapeInfo();
 
 	return 0;
 }

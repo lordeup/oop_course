@@ -1,5 +1,4 @@
 #pragma once
-#include "Const.h"
 
 class IShape
 {
