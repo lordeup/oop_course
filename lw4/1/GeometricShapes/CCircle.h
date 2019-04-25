@@ -1,7 +1,10 @@
 #pragma once
+#define _USE_MATH_DEFINES
+
 #include "CPoint.h"
 #include "Const.h"
 #include "ISolidShape.h"
+#include <cmath>
 
 class CCircle : public ISolidShape
 {
@@ -19,8 +22,6 @@ public:
 	double GetRadius() const;
 
 private:
-	const double M_PI = 3.14;
-
 	double m_radius;
 
 	std::string m_fillColor;

@@ -43,6 +43,33 @@ TEST_CASE("Shape")
 		CHECK(rectangle.GetOutlineColor() == "ffd700");
 	}
 
+	SECTION("CRectangle nondegenerate")
+	{
+		CPoint leftTop(2.0, 2.0);
+		double width = 5.0, height = 0.0;
+		std::string outlineColor = "ffd700", fillColor = "ff0000";
+		CRectangle rectangle(leftTop, width, height, outlineColor, fillColor);
+
+		CHECK(rectangle.GetArea() == 0.0);
+		CHECK(rectangle.GetPerimeter() == 10.0);
+		CHECK(rectangle.GetWidth() == width);
+		CHECK(rectangle.GetHeight() == height);
+		CHECK(rectangle.GetLeftTop().GetX() == leftTop.GetX());
+		CHECK(rectangle.GetLeftTop().GetY() == leftTop.GetY());
+
+		CHECK(rectangle.GetRightBottom().GetX() == 7.0);
+		CHECK(rectangle.GetRightBottom().GetY() == 2.0);
+
+		std::stringstream issOut;
+		std::stringstream issOutCheck("rectangle\nArea 0\nPerimeter 10\nLeft top 2 2\nRight bottom 7 2\nWidth 5\nHeight 0\nOutline color ffd700\nFill color ff0000\n");
+
+		rectangle.PrintInfo(issOut);
+		CHECK(issOut.str() == issOutCheck.str());
+
+		CHECK(rectangle.GetFillColor() == "ff0000");
+		CHECK(rectangle.GetOutlineColor() == "ffd700");
+	}
+
 	SECTION("CTriangle")
 	{
 		CPoint vertex1(0.0, 0.0);
@@ -73,21 +100,74 @@ TEST_CASE("Shape")
 		CHECK(triangle.GetOutlineColor() == "ffd700");
 	}
 
+	SECTION("CTriangle nondegenerate")
+	{
+		CPoint vertex1(0.0, 0.0);
+		CPoint vertex2(3.0, 0.0);
+		CPoint vertex3(8.0, 0.0);
+		std::string outlineColor = "ffd700", fillColor = "ff0000";
+		CTriangle triangle(vertex1, vertex2, vertex3, outlineColor, fillColor);
+
+		CHECK(triangle.GetArea() == 0.0);
+		CHECK(triangle.GetPerimeter() == 16.0);
+
+		CHECK(triangle.GetVertex1().GetX() == vertex1.GetX());
+		CHECK(triangle.GetVertex1().GetY() == vertex1.GetY());
+
+		CHECK(triangle.GetVertex2().GetX() == vertex2.GetX());
+		CHECK(triangle.GetVertex2().GetY() == vertex2.GetY());
+
+		CHECK(triangle.GetVertex3().GetX() == vertex3.GetX());
+		CHECK(triangle.GetVertex3().GetY() == vertex3.GetY());
+
+		std::stringstream issOut;
+		std::stringstream issOutCheck("triangle\nArea 0\nPerimeter 16\nVertex1 0 0\nVertex2 3 0\nVertex3 8 0\nOutline color ffd700\nFill color ff0000\n");
+
+		triangle.PrintInfo(issOut);
+		CHECK(issOut.str() == issOutCheck.str());
+
+		CHECK(triangle.GetFillColor() == "ff0000");
+		CHECK(triangle.GetOutlineColor() == "ffd700");
+	}
+
 	SECTION("CCircle")
 	{
 		CPoint center(0.0, 0.0);
-		double radius = 15.5;
+		double radius = 3;
 		std::string outlineColor = "ffd700", fillColor = "ff0000";
 		CCircle circle(center, radius, outlineColor, fillColor);
 
-		CHECK(circle.GetArea() == 754.385);
-		CHECK(circle.GetPerimeter() == 97.34);
+		CHECK(circle.GetArea() == M_PI * 9);
+		CHECK(circle.GetPerimeter() == M_PI * 6);
 		CHECK(circle.GetRadius() == radius);
 		CHECK(circle.GetCenter().GetX() == center.GetX());
 		CHECK(circle.GetCenter().GetY() == center.GetY());
 
 		std::stringstream issOut;
-		std::stringstream issOutCheck("circle\nArea 754.385\nPerimeter 97.34\nCenter 0 0\nRadius 15.5\nOutline color ffd700\nFill color ff0000\n");
+		std::stringstream issOutCheck("circle\nArea 28.2743\nPerimeter 18.8496\nCenter 0 0\nRadius 3\nOutline color ffd700\nFill color ff0000\n");
+
+		circle.PrintInfo(issOut);
+		CHECK(issOut.str() == issOutCheck.str());
+
+		CHECK(circle.GetFillColor() == "ff0000");
+		CHECK(circle.GetOutlineColor() == "ffd700");
+	}
+
+	SECTION("CCircle nondegenerate")
+	{
+		CPoint center(1.0, 1.0);
+		double radius = 0.0;
+		std::string outlineColor = "ffd700", fillColor = "ff0000";
+		CCircle circle(center, radius, outlineColor, fillColor);
+
+		CHECK(circle.GetArea() == 0.0);
+		CHECK(circle.GetPerimeter() == 0.0);
+		CHECK(circle.GetRadius() == radius);
+		CHECK(circle.GetCenter().GetX() == center.GetX());
+		CHECK(circle.GetCenter().GetY() == center.GetY());
+
+		std::stringstream issOut;
+		std::stringstream issOutCheck("circle\nArea 0\nPerimeter 0\nCenter 1 1\nRadius 0\nOutline color ffd700\nFill color ff0000\n");
 
 		circle.PrintInfo(issOut);
 		CHECK(issOut.str() == issOutCheck.str());
@@ -118,6 +198,30 @@ TEST_CASE("Shape")
 		CHECK(line.GetEndPoint().GetY() == endPoint.GetY());
 
 		CHECK(line.GetOutlineColor() == "ffd700");
+	}
+
+	SECTION("CLineSegment nondegenerate")
+	{
+		CPoint startPoint(2.0, 2.0);
+		CPoint endPoint(2.0, 2.0);
+		std::string outlineColor = "ffd471";
+		CLineSegment line(startPoint, endPoint, outlineColor);
+
+		CHECK(line.GetArea() == 0.0);
+		CHECK(line.GetPerimeter() == 0.0);
+		CHECK(line.GetStartPoint().GetX() == startPoint.GetX());
+		CHECK(line.GetStartPoint().GetY() == startPoint.GetY());
+
+		std::stringstream issOut;
+		std::stringstream issOutCheck("line\nArea 0\nPerimeter 0\nStart point 2 2\nEnd point 2 2\nOutline color ffd471\n");
+
+		line.PrintInfo(issOut);
+		CHECK(issOut.str() == issOutCheck.str());
+
+		CHECK(line.GetEndPoint().GetX() == endPoint.GetX());
+		CHECK(line.GetEndPoint().GetY() == endPoint.GetY());
+
+		CHECK(line.GetOutlineColor() == "ffd471");
 	}
 }
 
@@ -163,7 +267,7 @@ TEST_CASE("ShapeController")
 		shapeController.ProcessingCommand();
 		shapeController.PrintShapeInfo();
 
-		std::stringstream issOutCheck("circle\nArea 15023.3\nPerimeter 434.388\nCenter 0 150\nRadius 69.17\nOutline color e04f4f\nFill color 290707\n");
+		std::stringstream issOutCheck("circle\nArea 15030.9\nPerimeter 434.608\nCenter 0 150\nRadius 69.17\nOutline color e04f4f\nFill color 290707\n");
 
 		CHECK(issOut.str() == issOutCheck.str());
 	}
@@ -223,7 +327,7 @@ TEST_CASE("ShapeController")
 		shapeController.ProcessingCommand();
 		shapeController.PrintShapeInfo();
 
-		std::stringstream issOutCheck("The figure with the maximum area: circle\nArea 1121.64\nPerimeter 118.692\nCenter 46.9 35.1\nRadius 18.9\nOutline color 249fa6\nFill color 719407\n\nThe figure with the minimum perimeter: line\nArea 0\nPerimeter 25.318\nStart point 10 14\nEnd point 35 10\nOutline color c24444\n");
+		std::stringstream issOutCheck("The figure with the maximum area: circle\nArea 1122.21\nPerimeter 118.752\nCenter 46.9 35.1\nRadius 18.9\nOutline color 249fa6\nFill color 719407\n\nThe figure with the minimum perimeter: line\nArea 0\nPerimeter 25.318\nStart point 10 14\nEnd point 35 10\nOutline color c24444\n");
 
 		CHECK(issOut.str() == issOutCheck.str());
 	}
