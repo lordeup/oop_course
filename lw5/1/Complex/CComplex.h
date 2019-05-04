@@ -7,8 +7,7 @@
 class CComplex
 {
 public:
-	CComplex() = default;
-	CComplex(double real, double image);
+	CComplex(double real = 0, double image = 0);
 
 	double Re() const;
 	double Im() const;

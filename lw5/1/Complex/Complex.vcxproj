@@ -152,6 +152,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="CComplex.h" />
+    <ClInclude Include="Const.h" />
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
