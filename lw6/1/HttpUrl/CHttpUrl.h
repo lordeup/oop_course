@@ -1,5 +1,5 @@
 #pragma once
-#include <string>
+#include "Const.h"
 
 enum Protocol
 {
@@ -10,54 +10,30 @@ enum Protocol
 class CHttpUrl
 {
 public:
-	// выполн€ет парсинг строкового представлени€ URL-а, в случае ошибки парсинга
-	// выбрасыват исключение CUrlParsingError, содержащее текстовое описание ошибки
 	CHttpUrl(std::string const& url);
+	CHttpUrl(const std::string& domain, const std::string& document, Protocol protocol);
+	CHttpUrl(std::string const& domain, std::string const& document, Protocol protocol, int port);
 
-	/* инициализирует URL на основе переданных параметров.
-		ѕри недопустимости входных параметров выбрасывает исключение
-		std::invalid_argument
-		≈сли им€ документа не начинаетс€ с символа /, то добавл€ет / к имени документа
-	*/
-	CHttpUrl(
-		std::string const& domain,
-		std::string const& document,
-		Protocol protocol = HTTP);
-
-	/* инициализирует URL на основе переданных параметров.
-		ѕри недопустимости входных параметров выбрасывает исключение
-		std::invalid_argument
-		≈сли им€ документа не начинаетс€ с символа /, то добавл€ет / к имени документа
-	*/
-	CHttpUrl(
-		std::string const& domain,
-		std::string const& document,
-		Protocol protocol,
-		unsigned short port);
-
-	// возвращает строковое представление URL-а. ѕорт, €вл€ющийс€ стандартным дл€
-	// выбранного протокола (80 дл€ http и 443 дл€ https) в эту строку
-	// не должен включатьс€
 	std::string GetURL() const;
-
-	// возвращает доменное им€
 	std::string GetDomain() const;
-
-	/* 
-		¬озвращает им€ документа. ѕримеры: 
-			/
-			/index.html
-			/images/photo.jpg
-	*/
 	std::string GetDocument() const;
-
+	std::string GetProtocolString() const;
 	Protocol GetProtocol() const;
-	unsigned short GetPort() const;
+	int GetPort() const;
 
 private:
 	std::string m_url;
-	std::string m_document;
 	std::string m_domain;
-	unsigned short m_port;
+	std::string m_document;
 	Protocol m_protocol;
+	int m_port;
+
+	std::string ToLowerCase(std::string str);
+	int GetDefaultPort(Protocol protocol);
+
+	int ValidPort(const std::string& strPort);
+	std::string ValidDomain(const std::string& strDomain);
+	std::string ValidDocument(const std::string& strDocument);
+
+	Protocol ValidProtocol(const std::string& strProtocol);
 };
