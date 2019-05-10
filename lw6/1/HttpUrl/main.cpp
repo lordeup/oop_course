@@ -21,7 +21,7 @@ int main()
 		}
 		catch (const CUrlParsingError& err)
 		{
-			std::cout << err.GetErrorMessage() << std::endl;
+			std::cout << err.what() << std::endl;
 		}
 		std::cout << std::endl;
 	}

@@ -3,16 +3,13 @@
 #include <regex>
 
 CHttpUrl::CHttpUrl(std::string const& url)
-	: m_url(url)
 {
-	//std::regex strRegex("(http|HTTP|https|HTTPS)://([[:alnum:]-\\.]+):([\\d]+)/([\\S]*)");
-	//std::regex strRegexPortDefault("(http|HTTP|https|HTTPS)://([[:alnum:]-\\.]+)/([\\S]*)");
 	if (url.empty())
 	{
 		throw CUrlParsingError(URL_EMPTY_ERROR);
 	}
 
-	std::regex strRegex(R"(^(https?)://([[:alnum:]-\\.]+)(?::([\\d]+))?(?:\/(.*))?$)", std::regex_constants::icase);
+	std::regex strRegex(R"((http|HTTP|https|HTTPS)://([[:alnum:]-\\.]+)(?::([0-9]+))?(?:\/(.*))?$)");
 
 	std::smatch match;
 
@@ -34,6 +31,7 @@ CHttpUrl::CHttpUrl(std::string const& url)
 	}
 
 	m_document = ValidDocument(match.str(4));
+	m_url = url;
 }
 
 CHttpUrl::CHttpUrl(const std::string& domain, const std::string& document, Protocol protocol = HTTP)
@@ -41,6 +39,7 @@ CHttpUrl::CHttpUrl(const std::string& domain, const std::string& document, Proto
 	, m_document(ValidDocument(document))
 	, m_protocol(protocol)
 {
+	m_port = GetDefaultPort(protocol);
 	m_url = GetProtocolString() + "://" + m_domain + m_document;
 }
 
@@ -55,7 +54,7 @@ CHttpUrl::CHttpUrl(std::string const& domain, std::string const& document, Proto
 	}
 
 	m_port = port;
-	m_url = GetProtocolString() + "://" + m_domain + std::to_string(m_port) + m_document;
+	m_url = GetProtocolString() + "://" + m_domain + ":" + std::to_string(m_port) + m_document;
 }
 
 Protocol CHttpUrl::ValidProtocol(const std::string& strProtocol)
@@ -76,7 +75,7 @@ Protocol CHttpUrl::ValidProtocol(const std::string& strProtocol)
 
 std::string CHttpUrl::ValidDomain(const std::string& strDomain)
 {
-	std::regex regex(R"(^([[:alnum:]-\\.]+)$)", std::regex_constants::icase);
+	std::regex regex(R"(^([[:alnum:]-\\.]+)$)");
 	std::smatch match;
 	if (!regex_match(strDomain, match, regex))
 	{

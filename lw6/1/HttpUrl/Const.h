@@ -1,11 +1,11 @@
 #pragma once
 #include <string>
 
-const unsigned short HTTP_PORT = 80;
-const unsigned short HTTPS_PORT = 443;
+const int HTTP_PORT = 80;
+const int HTTPS_PORT = 443;
 
-const unsigned short MIN_NUMBER_PORT = 1;
-const unsigned short MAX_NUMBER_PORT = 65535;
+const int MIN_NUMBER_PORT = 1;
+const int MAX_NUMBER_PORT = 65535;
 
 const std::string HTTP_STRING = "http";
 const std::string HTTPS_STRING = "https";

@@ -22,18 +22,17 @@ public:
 	int GetPort() const;
 
 private:
+	std::string ToLowerCase(std::string str);
+	int GetDefaultPort(Protocol protocol);
+
+	std::string ValidDomain(const std::string& strDomain);
+	std::string ValidDocument(const std::string& strDocument);
+	Protocol ValidProtocol(const std::string& strProtocol);
+	int ValidPort(const std::string& strPort);
+
 	std::string m_url;
 	std::string m_domain;
 	std::string m_document;
 	Protocol m_protocol;
 	int m_port;
-
-	std::string ToLowerCase(std::string str);
-	int GetDefaultPort(Protocol protocol);
-
-	int ValidPort(const std::string& strPort);
-	std::string ValidDomain(const std::string& strDomain);
-	std::string ValidDocument(const std::string& strDocument);
-
-	Protocol ValidProtocol(const std::string& strProtocol);
 };
