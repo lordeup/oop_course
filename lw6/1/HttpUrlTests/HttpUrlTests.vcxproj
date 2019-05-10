@@ -168,6 +168,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\HttpUrl\CHttpUrl.h" />
+    <ClInclude Include="..\HttpUrl\Const.h" />
     <ClInclude Include="..\HttpUrl\CUrlParsingError.h" />
     <ClInclude Include="pch.h" />
   </ItemGroup>
