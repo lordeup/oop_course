@@ -120,6 +120,7 @@ std::string CHttpUrl::ValidDocument(const std::string& strDocument)
 			if (strDocument[i + 1] == SLASH_CHAR)
 			{
 				throw CUrlParsingError(URL_DOCUMENT_ERROR);
+			}
 		}
 	}
 
