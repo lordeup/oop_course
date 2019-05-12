@@ -158,6 +158,38 @@ TEST_CASE("Check Url String")
 		CHECK_THROWS_AS(CHttpUrl(urlStr), CUrlParsingError);
 	}
 
+	SECTION("Invalid URL document 3")
+	{
+		std::string urlStr = "https://drive.google.com/ument1.html?page=3450&lang=)en#zero";
+		CHECK_THROWS_AS(CHttpUrl(urlStr), CUrlParsingError);
+	}
+
+	SECTION("Invalid URL document 4")
+	{
+		std::string urlStr = "https://drive.google.com/ument1.html?page=3450&lang=;;;;;en#zero";
+		CHECK_THROWS_AS(CHttpUrl(urlStr), CUrlParsingError);
+	}
+	SECTION("Invalid URL document 5")
+	{
+		std::string urlStr = "https://drive.google.com/ument1.html?page=3450&lang=№en#zero";
+		CHECK_THROWS_AS(CHttpUrl(urlStr), CUrlParsingError);
+	}
+	SECTION("Invalid URL document 6")
+	{
+		std::string urlStr = "https://drive.google.com/ument1.html?page=3450&lang={{{{{{{}}}}[]en#zero";
+		CHECK_THROWS_AS(CHttpUrl(urlStr), CUrlParsingError);
+	}
+	SECTION("Invalid URL document 7")
+	{
+		std::string urlStr = "https://drive.google.com/ument1.html?page=3450&lang=<><><en#zero";
+		CHECK_THROWS_AS(CHttpUrl(urlStr), CUrlParsingError);
+	}
+	SECTION("Invalid URL document 8")
+	{
+		std::string urlStr = "https://drive.google.com/ument1.html?page=3450&lang=**en#zero";
+		CHECK_THROWS_AS(CHttpUrl(urlStr), CUrlParsingError);
+	}
+
 	SECTION("Invalid Url Protocol 1")
 	{
 		std::string urlStr = "httpswww.google.com:hello/doc";

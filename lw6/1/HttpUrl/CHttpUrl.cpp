@@ -122,6 +122,15 @@ std::string CHttpUrl::ValidDocument(const std::string& strDocument)
 				throw CUrlParsingError(URL_DOCUMENT_ERROR);
 			}
 		}
+
+		if (strDocument[i] == '~' || strDocument[i] == '\'' || strDocument[i] == '!' || strDocument[i] == '@'
+			|| strDocument[i] == '"' || strDocument[i] == '¹' || strDocument[i] == ';' || strDocument[i] == '^'
+			|| strDocument[i] == ':' || strDocument[i] == '*' || strDocument[i] == '(' || strDocument[i] == ')'
+			|| strDocument[i] == '[' || strDocument[i] == ']' || strDocument[i] == '{' || strDocument[i] == '}'
+			|| strDocument[i] == '|' || strDocument[i] == '<' || strDocument[i] == '>' || strDocument[i] == ',')
+		{
+			throw CUrlParsingError(URL_DOCUMENT_ERROR);
+		}
 	}
 
 	if (strDocument.empty())
