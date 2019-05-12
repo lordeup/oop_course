@@ -70,8 +70,14 @@ TEST_CASE("Check Url String")
 
 	SECTION("Valide document 3")
 	{
-		std::string urlStr = "https://www.youtube.com//re";
+		std::string urlStr = "https://www.youtube.com/re";
 		CheckUrlString(urlStr, "https", "www.youtube.com", HTTPS_PORT, "/re");
+	}
+
+	SECTION("Valide document 4")
+	{
+		std::string urlStr = "https://www.youtube.com:34/doc";
+		CheckUrlString(urlStr, "https", "www.youtube.com", 34, "/doc");
 	}
 
 	SECTION("Port installed HTTP port MIN_NUMBER_PORT")
@@ -110,9 +116,69 @@ TEST_CASE("Check Url String")
 		CHECK_THROWS_AS(CHttpUrl(urlStr), CUrlParsingError);
 	}
 
-	SECTION("Invalid URL domain")
+	SECTION("Invalid URL port")
+	{
+		std::string urlStr = "https://www.google.com:-1/doc";
+		CHECK_THROWS_AS(CHttpUrl(urlStr), CUrlParsingError);
+	}
+
+	SECTION("Invalid URL domain 1")
 	{
 		std::string urlStr = "https://www.googl^e.com/doc";
+		CHECK_THROWS_AS(CHttpUrl(urlStr), CUrlParsingError);
+	}
+
+	SECTION("Invalid URL domain 2")
+	{
+		std::string urlStr = "https://www google.com/doc";
+		CHECK_THROWS_AS(CHttpUrl(urlStr), CUrlParsingError);
+	}
+
+	SECTION("Invalid URL domain 3")
+	{
+		std::string urlStr = "https://www.?%google.com/doc";
+		CHECK_THROWS_AS(CHttpUrl(urlStr), CUrlParsingError);
+	}
+
+	SECTION("Invalid URL domain 4")
+	{
+		std::string urlStr = "http:///docs/document1.html";
+		CHECK_THROWS_AS(CHttpUrl(urlStr), CUrlParsingError);
+	}
+
+	SECTION("Invalid URL document 1")
+	{
+		std::string urlStr = "https://drive.google.com////";
+		CHECK_THROWS_AS(CHttpUrl(urlStr), CUrlParsingError);
+	}
+
+	SECTION("Invalid URL document 2")
+	{
+		std::string urlStr = "https://drive.google.com/ument1.html?page=3450&lang=//////en#zero";
+		CHECK_THROWS_AS(CHttpUrl(urlStr), CUrlParsingError);
+	}
+
+	SECTION("Invalid Url Protocol 1")
+	{
+		std::string urlStr = "httpswww.google.com:hello/doc";
+		CHECK_THROWS_AS(CHttpUrl(urlStr), CUrlParsingError);
+	}
+
+	SECTION("Invalid Url Protocol 2")
+	{
+		std::string urlStr = "https://www.google.com:hello/doc";
+		CHECK_THROWS_AS(CHttpUrl(urlStr), CUrlParsingError);
+	}
+
+	SECTION("Invalid Url Protocol 3")
+	{
+		std::string urlStr = "https::/www.google.com:hello/doc";
+		CHECK_THROWS_AS(CHttpUrl(urlStr), CUrlParsingError);
+	}
+
+	SECTION("Invalid Url Protocol 4")
+	{
+		std::string urlStr = "https::www.google.com:hello/doc";
 		CHECK_THROWS_AS(CHttpUrl(urlStr), CUrlParsingError);
 	}
 
@@ -147,6 +213,36 @@ TEST_CASE("Check Url Without Port")
 	{
 		std::string urlStr = "https://mathhelpplanet.com/";
 		CheckUrlWithoutPort(urlStr, Protocol::HTTPS, "mathhelpplanet.com", "/");
+	}
+
+	SECTION("Invalid URL document 1")
+	{
+		CHECK_THROWS_AS(CHttpUrl("mathhelpplanet.com", "////", Protocol::HTTP), CUrlParsingError);
+	}
+
+	SECTION("Invalid URL document 2")
+	{
+		CHECK_THROWS_AS(CHttpUrl("mathhelpplanet.com", "document63/dg///", Protocol::HTTP), CUrlParsingError);
+	}
+
+	SECTION("Invalid URL domain 1")
+	{
+		CHECK_THROWS_AS(CHttpUrl("www.googl^e.com", "/doc", Protocol::HTTPS), CUrlParsingError);
+	}
+
+	SECTION("Invalid URL domain 2")
+	{
+		CHECK_THROWS_AS(CHttpUrl("www google.com", "/doc", Protocol::HTTP), CUrlParsingError);
+	}
+
+	SECTION("Invalid URL domain 3")
+	{
+		CHECK_THROWS_AS(CHttpUrl("www.?%google.com", "/doc", Protocol::HTTPS), CUrlParsingError);
+	}
+
+	SECTION("Invalid URL domain 4")
+	{
+		CHECK_THROWS_AS(CHttpUrl("", "docs/document1.html", Protocol::HTTP), CUrlParsingError);
 	}
 }
 
@@ -202,13 +298,41 @@ TEST_CASE("Check Url With Port")
 
 	SECTION("Port less MIN_NUMBER_PORT")
 	{
-		std::string urlStr = "https://www.google.com:0/doc";
 		CHECK_THROWS_AS(CHttpUrl("www.google.com", "/doc", Protocol::HTTPS, 0), CUrlParsingError);
 	}
 
 	SECTION("Port more MAX_NUMBER_PORT")
 	{
-		std::string urlStr = "https://www.google.com:65536/doc";
 		CHECK_THROWS_AS(CHttpUrl("www.google.com", "/doc", Protocol::HTTPS, 65536), CUrlParsingError);
+	}
+
+	SECTION("Invalid URL document 1")
+	{
+		CHECK_THROWS_AS(CHttpUrl("www.instagram.com", "///", Protocol::HTTPS, 452), CUrlParsingError);
+	}
+
+	SECTION("Invalid URL document 2")
+	{
+		CHECK_THROWS_AS(CHttpUrl("www.instagram.com", "doc/423#str=hello///world", Protocol::HTTPS, 452), CUrlParsingError);
+	}
+
+	SECTION("Invalid URL domain 1")
+	{
+		CHECK_THROWS_AS(CHttpUrl("www.googl^e.com", "/doc", Protocol::HTTPS, 23), CUrlParsingError);
+	}
+
+	SECTION("Invalid URL domain 2")
+	{
+		CHECK_THROWS_AS(CHttpUrl("www google.com", "/doc", Protocol::HTTPS, 12), CUrlParsingError);
+	}
+
+	SECTION("Invalid URL domain 3")
+	{
+		CHECK_THROWS_AS(CHttpUrl("www.?%google.com", "/doc", Protocol::HTTPS, 43), CUrlParsingError);
+	}
+
+	SECTION("Invalid URL domain 4")
+	{
+		CHECK_THROWS_AS(CHttpUrl("", "docs/document1.html", Protocol::HTTPS, 54), CUrlParsingError);
 	}
 }

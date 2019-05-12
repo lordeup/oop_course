@@ -13,6 +13,7 @@ const std::string HTTPS_STRING = "https";
 const std::string URL_INPUT_ERROR = "Invalid URL input";
 const std::string URL_PORT_ERROR = "Invalid URL port";
 const std::string URL_DOMAIN_ERROR = "Invalid URL domain";
+const std::string URL_DOCUMENT_ERROR = "Invalid URL document";
 const std::string URL_PROTOCOL_UNKNOWN_ERROR = "Unknown Protocol type";
 const std::string URL_EMPTY_ERROR = "Url is empty";
 

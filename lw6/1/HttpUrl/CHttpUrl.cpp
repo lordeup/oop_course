@@ -9,7 +9,7 @@ CHttpUrl::CHttpUrl(std::string const& url)
 		throw CUrlParsingError(URL_EMPTY_ERROR);
 	}
 
-	std::regex strRegex(R"((http|HTTP|https|HTTPS)://([[:alnum:]-\\.]+)(?::([0-9]+))?(?:\/(.*))?$)");
+	std::regex strRegex(R"((http|HTTP|https|HTTPS)://([[:alnum:]-\\.]+)(?:\:([[:digit:]]+))?(?:\/(\S*))?$)");
 
 	std::smatch match;
 
@@ -113,6 +113,16 @@ int CHttpUrl::GetDefaultPort(Protocol protocol)
 
 std::string CHttpUrl::ValidDocument(const std::string& strDocument)
 {
+	for (size_t i = 0; i < strDocument.length(); ++i)
+	{
+		if (strDocument[i] == SLASH_CHAR)
+		{
+			if (strDocument[i + 1] == SLASH_CHAR)
+			{
+				throw CUrlParsingError(URL_DOCUMENT_ERROR);
+		}
+	}
+
 	if (strDocument.empty())
 	{
 		return SLASH_STRING;
