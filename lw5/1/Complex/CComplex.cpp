@@ -50,6 +50,11 @@ CComplex const operator/(const CComplex& complex1, const CComplex& complex2)
 {
 	double dividend = pow(complex2.Re(), POWER_NUMBER) + pow(complex2.Im(), POWER_NUMBER);
 
+	if (dividend == ZERO)
+	{
+		throw std::invalid_argument(ERROR_DIVIDED_ZERO);
+	}
+
 	return CComplex((complex1.Re() * complex2.Re() + complex1.Im() * complex2.Im()) / dividend, (complex1.Im() * complex2.Re() - complex1.Re() * complex2.Im()) / dividend);
 }
 
@@ -92,6 +97,12 @@ CComplex& CComplex::operator/=(const CComplex& complex)
 {
 	double temporaryReal = m_real;
 	double dividend = pow(complex.m_real, POWER_NUMBER) + pow(complex.m_image, POWER_NUMBER);
+
+	if (dividend == ZERO)
+	{
+		throw std::invalid_argument(ERROR_DIVIDED_ZERO);
+	}
+
 	m_real = (m_real * complex.m_real + m_image * complex.m_image) / dividend;
 	m_image = (m_image * complex.m_real - temporaryReal * complex.m_image) / dividend;
 
