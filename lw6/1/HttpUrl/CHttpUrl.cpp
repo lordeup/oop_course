@@ -9,7 +9,7 @@ CHttpUrl::CHttpUrl(std::string const& url)
 		throw CUrlParsingError(URL_EMPTY_ERROR);
 	}
 
-	std::regex strRegex(R"((http|HTTP|https|HTTPS)://([[:alnum:]-\\.]+)(?:\:([[:digit:]]+))?(?:\/(\S*))?$)");
+	std::regex strRegex(URL_REGULAR_EXPRESSION);
 
 	std::smatch match;
 
@@ -18,19 +18,19 @@ CHttpUrl::CHttpUrl(std::string const& url)
 		throw CUrlParsingError(URL_INPUT_ERROR);
 	}
 
-	m_protocol = ValidProtocol(match.str(1));
-	m_domain = ValidDomain(match.str(2));
+	m_protocol = ValidProtocol(match.str(MATCH_PROTOCOL_URL));
+	m_domain = ValidDomain(match.str(MATCH_DOMAIN_URL));
 
-	if (!match.str(3).empty())
+	if (!match.str(MATCH_PORT_URL).empty())
 	{
-		m_port = ValidPort(match.str(3));
+		m_port = ValidPort(match.str(MATCH_PORT_URL));
 	}
 	else
 	{
 		m_port = GetDefaultPort(m_protocol);
 	}
 
-	m_document = ValidDocument(match.str(4));
+	m_document = ValidDocument(match.str(MATCH_DOCUMENT_URL));
 	m_url = url;
 }
 
@@ -75,7 +75,7 @@ Protocol CHttpUrl::ValidProtocol(const std::string& strProtocol)
 
 std::string CHttpUrl::ValidDomain(const std::string& strDomain)
 {
-	std::regex regex(R"(^([[:alnum:]-\\.]+)$)");
+	std::regex regex(DOMAIN_REGULAR_EXPRESSION);
 	std::smatch match;
 	if (!regex_match(strDomain, match, regex))
 	{
@@ -123,11 +123,10 @@ std::string CHttpUrl::ValidDocument(const std::string& strDocument)
 			}
 		}
 
-		if (strDocument[i] == '~' || strDocument[i] == '\'' || strDocument[i] == '!' || strDocument[i] == '@'
-			|| strDocument[i] == '"' || strDocument[i] == '¹' || strDocument[i] == ';' || strDocument[i] == '^'
-			|| strDocument[i] == ':' || strDocument[i] == '*' || strDocument[i] == '(' || strDocument[i] == ')'
-			|| strDocument[i] == '[' || strDocument[i] == ']' || strDocument[i] == '{' || strDocument[i] == '}'
-			|| strDocument[i] == '|' || strDocument[i] == '<' || strDocument[i] == '>' || strDocument[i] == ',')
+		if (strDocument[i] == '~' || strDocument[i] == '\'' || strDocument[i] == '"' || strDocument[i] == '¹'
+			|| strDocument[i] == ';' || strDocument[i] == '^' || strDocument[i] == '*' || strDocument[i] == '(' || strDocument[i] == ')'
+			|| strDocument[i] == '[' || strDocument[i] == ']' || strDocument[i] == '{' || strDocument[i] == '}' || strDocument[i] == '|'
+			|| strDocument[i] == '<' || strDocument[i] == '>')
 		{
 			throw CUrlParsingError(URL_DOCUMENT_ERROR);
 		}

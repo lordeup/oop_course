@@ -7,6 +7,14 @@ const int HTTPS_PORT = 443;
 const int MIN_NUMBER_PORT = 1;
 const int MAX_NUMBER_PORT = 65535;
 
+const int MATCH_PROTOCOL_URL = 1;
+const int MATCH_DOMAIN_URL = 2;
+const int MATCH_PORT_URL = 3;
+const int MATCH_DOCUMENT_URL = 4;
+
+const std::string URL_REGULAR_EXPRESSION = R"((http|HTTP|https|HTTPS)://([[:alnum:]-\\.]+)(?:\:([[:digit:]]+))?(?:\/(\S*))?$)";
+const std::string DOMAIN_REGULAR_EXPRESSION = R"(^([[:alnum:]-\\.]+)$)";
+
 const std::string HTTP_STRING = "http";
 const std::string HTTPS_STRING = "https";
 
