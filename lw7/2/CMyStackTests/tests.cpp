@@ -6,8 +6,9 @@
 TEST_CASE("int")
 {
 	CMyStack<int> stack;
+	CMyStack<int> copyStack;
 
-	SECTION("one element")
+	SECTION("One element")
 	{
 		stack.Push(99);
 		CHECK(stack.GetTop() == 99);
@@ -17,7 +18,12 @@ TEST_CASE("int")
 		CHECK(stack.IsEmpty() == true);
 	}
 
-	SECTION("not empty")
+	SECTION("Empty")
+	{
+		CHECK(stack.IsEmpty() == true);
+	}
+
+	SECTION("Not empty")
 	{
 		stack.Push(1);
 		stack.Push(2);
@@ -40,11 +46,6 @@ TEST_CASE("int")
 		CHECK(stack.IsEmpty() == true);
 	}
 
-	SECTION("empty")
-	{
-		CHECK(stack.IsEmpty() == true);
-	}
-
 	SECTION("Clear")
 	{
 		stack.Push(1);
@@ -57,13 +58,57 @@ TEST_CASE("int")
 		stack.Clear();
 		CHECK(stack.IsEmpty() == true);
 	}
+
+	SECTION("CopyStack")
+	{
+		stack.Push(1);
+		stack.Push(2);
+
+		CMyStack<int> stack2(stack);
+
+		CHECK(stack2.IsEmpty() == false);
+
+		CHECK(stack.GetTop() == stack2.GetTop());
+	}
+
+	SECTION("CopyStack operator =")
+	{
+		stack.Push(1);
+		stack.Push(2);
+		copyStack.Push(1);
+		copyStack.Push(2);
+		copyStack.Push(3);
+		copyStack.Push(4);
+
+		copyStack = stack;
+
+		CHECK(stack.GetTop() == copyStack.GetTop());
+		copyStack.Pop();
+		CHECK(stack.GetTop() != copyStack.GetTop());
+		CHECK(copyStack.GetTop() == 1);
+	}
+
+	SECTION("Self-assignment CopyStack operator =")
+	{
+		CMyStack<int> copyStack;
+
+		stack.Push(1);
+		stack.Push(2);
+
+		stack = stack;
+
+		CHECK_THROWS_AS(copyStack.GetTop(), std::logic_error);
+		CHECK(copyStack.IsEmpty() == true);
+		CHECK(stack.GetTop() == 2);
+	}
 }
 
 TEST_CASE("string")
 {
 	CMyStack<std::string> stack;
+	CMyStack<std::string> copyStack;
 
-	SECTION("one element")
+	SECTION("One element")
 	{
 		stack.Push("hello");
 		CHECK(stack.GetTop() == "hello");
@@ -73,7 +118,7 @@ TEST_CASE("string")
 		CHECK(stack.IsEmpty() == true);
 	}
 
-	SECTION("not empty")
+	SECTION("Not empty")
 	{
 		stack.Push("Hello");
 		stack.Push("World");
@@ -100,7 +145,7 @@ TEST_CASE("string")
 		CHECK(stack.IsEmpty() == true);
 	}
 
-	SECTION("empty")
+	SECTION("Empty")
 	{
 		CHECK(stack.IsEmpty() == true);
 	}
@@ -117,5 +162,48 @@ TEST_CASE("string")
 
 		stack.Clear();
 		CHECK(stack.IsEmpty() == true);
+	}
+
+	SECTION("CopyStack")
+	{
+		stack.Push("Hello");
+		stack.Push("World");
+
+		CMyStack<std::string> stack2(stack);
+
+		CHECK(stack2.IsEmpty() == false);
+
+		CHECK(stack.GetTop() == stack2.GetTop());
+	}
+
+	SECTION("CopyStack operator =")
+	{
+		stack.Push("Hello");
+		stack.Push("World");
+		copyStack.Push("Hello");
+		copyStack.Push("World");
+		copyStack.Push("How");
+		copyStack.Push("Are");
+
+		copyStack = stack;
+
+		CHECK(stack.GetTop() == copyStack.GetTop());
+		copyStack.Pop();
+		CHECK(stack.GetTop() != copyStack.GetTop());
+		CHECK(copyStack.GetTop() == "Hello");
+	}
+
+	SECTION("Self-assignment CopyStack operator =")
+	{
+		CMyStack<int> copyStack;
+
+		stack.Push("Hello");
+		stack.Push("World");
+
+		stack = stack;
+
+		CHECK_THROWS_AS(copyStack.GetTop(), std::logic_error);
+		CHECK(copyStack.IsEmpty() == true);
+		CHECK(stack.GetTop() == "World");
 	}
 }

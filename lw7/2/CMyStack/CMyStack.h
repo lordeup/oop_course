@@ -1,12 +1,13 @@
 #pragma once
-#include <memory>
 #include "Const.h"
+#include <memory>
 
 template <typename T>
 class CMyStack
 {
 public:
 	CMyStack();
+	CMyStack(const CMyStack& copyOtherStack);
 	~CMyStack();
 	void Push(T const& t);
 	T GetTop() const;
@@ -15,12 +16,14 @@ public:
 	void Clear();
 	bool IsEmpty() const;
 
+	CMyStack<T>& operator=(CMyStack<T> const& copyOtherStack);
+
 private:
 	struct Node
 	{
-		Node(T const& value, std::shared_ptr<Node> const& nextNode)
+		Node(T const& value, std::shared_ptr<Node> const& node)
 			: data(value)
-			, prev(nextNode)
+			, prev(node)
 		{
 		}
 
@@ -28,8 +31,10 @@ private:
 		std::shared_ptr<Node> prev = nullptr;
 	};
 
+	typedef std::shared_ptr<Node> NodePtr;
+
 	unsigned m_size;
-	std::shared_ptr<Node> m_top;
+	NodePtr m_top;
 };
 
 template <typename T>
@@ -37,6 +42,27 @@ CMyStack<T>::CMyStack::CMyStack()
 	: m_size(0)
 	, m_top(nullptr)
 {
+}
+
+template <typename T>
+CMyStack<T>::CMyStack::CMyStack(const CMyStack& copyOtherStack)
+{
+	if (!copyOtherStack.IsEmpty())
+	{
+		m_size = copyOtherStack.m_size;
+
+		NodePtr currentPtr = copyOtherStack.m_top;
+
+		NodePtr previousPtr = std::make_shared<Node>(currentPtr->data, nullptr);
+		m_top = previousPtr;
+
+		while (currentPtr != nullptr)
+		{
+			NodePtr newPtr = std::make_shared<Node>(currentPtr->data, nullptr);
+			previousPtr->prev = newPtr;
+			currentPtr = currentPtr->prev;
+		}
+	}
 }
 
 template <typename T>
@@ -86,4 +112,33 @@ template <typename T>
 bool CMyStack<T>::IsEmpty() const
 {
 	return (m_size == 0) ? true : false;
+}
+
+template <typename T>
+CMyStack<T>& CMyStack<T>::operator=(CMyStack<T> const& copyOtherStack)
+{
+	if (this == &copyOtherStack)
+	{
+		return *this;
+	}
+
+	if (!copyOtherStack.IsEmpty())
+	{
+		Clear();
+		m_size = copyOtherStack.m_size;
+
+		NodePtr currentPtr = copyOtherStack.m_top;
+
+		NodePtr previousPtr = std::make_shared<Node>(currentPtr->data, nullptr);
+		m_top = previousPtr;
+
+		while (currentPtr != nullptr)
+		{
+			NodePtr newPtr = std::make_shared<Node>(currentPtr->data, nullptr);
+			previousPtr->prev = newPtr;
+			currentPtr = currentPtr->prev;
+		}
+	}
+
+	return *this;
 }
