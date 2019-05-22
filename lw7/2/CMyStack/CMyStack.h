@@ -8,20 +8,22 @@ class CMyStack
 public:
 	CMyStack();
 	CMyStack(const CMyStack& copyOtherStack);
+	CMyStack(CMyStack&& moveOtherStack);
 	~CMyStack();
-	void Push(T const& t);
+	void Push(const T& t);
 	T GetTop() const;
 
 	void Pop();
 	void Clear();
 	bool IsEmpty() const;
 
-	CMyStack<T>& operator=(CMyStack<T> const& copyOtherStack);
+	CMyStack<T>& operator=(const CMyStack<T>& copyOtherStack);
+	CMyStack<T>& operator=(CMyStack<T>&& moveOtherStack);
 
 private:
 	struct Node
 	{
-		Node(T const& value, std::shared_ptr<Node> const& node)
+		Node(const T& value, const std::shared_ptr<Node>& node)
 			: data(value)
 			, prev(node)
 		{
@@ -66,13 +68,25 @@ CMyStack<T>::CMyStack::CMyStack(const CMyStack& copyOtherStack)
 }
 
 template <typename T>
+CMyStack<T>::CMyStack::CMyStack(CMyStack&& moveOtherStack)
+{
+	if (!moveOtherStack.IsEmpty())
+	{
+		m_top = moveOtherStack.m_top;
+		m_size = moveOtherStack.m_size;
+		moveOtherStack.m_top = nullptr;
+		moveOtherStack.m_size = 0;
+	}
+}
+
+template <typename T>
 CMyStack<T>::CMyStack::~CMyStack()
 {
 	Clear();
 }
 
 template <typename T>
-void CMyStack<T>::Push(T const& t)
+void CMyStack<T>::Push(const T& t)
 {
 	m_top = std::make_shared<Node>(t, m_top);
 	++m_size;
@@ -93,7 +107,6 @@ void CMyStack<T>::Pop()
 {
 	if (!IsEmpty())
 	{
-		m_top->data.~T();
 		m_top = m_top->prev;
 		--m_size;
 	}
@@ -115,7 +128,7 @@ bool CMyStack<T>::IsEmpty() const
 }
 
 template <typename T>
-CMyStack<T>& CMyStack<T>::operator=(CMyStack<T> const& copyOtherStack)
+CMyStack<T>& CMyStack<T>::operator=(const CMyStack<T>& copyOtherStack)
 {
 	if (this == &copyOtherStack)
 	{
@@ -138,6 +151,27 @@ CMyStack<T>& CMyStack<T>::operator=(CMyStack<T> const& copyOtherStack)
 			previousPtr->prev = newPtr;
 			currentPtr = currentPtr->prev;
 		}
+	}
+
+	return *this;
+}
+
+template <typename T>
+CMyStack<T>& CMyStack<T>::operator=(CMyStack<T>&& moveOtherStack)
+{
+	if (this == &moveOtherStack)
+	{
+		return *this;
+	}
+
+	if (!moveOtherStack.IsEmpty())
+	{
+		Clear();
+
+		m_top = moveOtherStack.m_top;
+		m_size = moveOtherStack.m_size;
+		moveOtherStack.m_top = nullptr;
+		moveOtherStack.m_size = 0;
 	}
 
 	return *this;

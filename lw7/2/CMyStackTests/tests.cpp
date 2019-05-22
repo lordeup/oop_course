@@ -7,6 +7,7 @@ TEST_CASE("int")
 {
 	CMyStack<int> stack;
 	CMyStack<int> copyStack;
+	CMyStack<int> moveStack;
 
 	SECTION("One element")
 	{
@@ -21,6 +22,7 @@ TEST_CASE("int")
 	SECTION("Empty")
 	{
 		CHECK(stack.IsEmpty() == true);
+		CHECK_THROWS_AS(stack.GetTop(), std::logic_error);
 	}
 
 	SECTION("Not empty")
@@ -59,16 +61,27 @@ TEST_CASE("int")
 		CHECK(stack.IsEmpty() == true);
 	}
 
-	SECTION("CopyStack")
+	SECTION("CopyStack constructor")
 	{
 		stack.Push(1);
 		stack.Push(2);
 
-		CMyStack<int> stack2(stack);
+		CMyStack<int> copyStack(stack);
 
-		CHECK(stack2.IsEmpty() == false);
+		CHECK(copyStack.IsEmpty() == false);
 
-		CHECK(stack.GetTop() == stack2.GetTop());
+		CHECK(stack.GetTop() == copyStack.GetTop());
+	}
+
+	SECTION("CopyStack constructor empty stack")
+	{
+		CMyStack<int> copyStack(stack);
+
+		CHECK(stack.IsEmpty() == true);
+		CHECK(copyStack.IsEmpty() == true);
+
+		CHECK_THROWS_AS(stack.GetTop(), std::logic_error);
+		CHECK_THROWS_AS(copyStack.GetTop(), std::logic_error);
 	}
 
 	SECTION("CopyStack operator =")
@@ -88,10 +101,17 @@ TEST_CASE("int")
 		CHECK(copyStack.GetTop() == 1);
 	}
 
+	SECTION("CopyStack empty stack operator =")
+	{
+		copyStack = stack;
+
+		CHECK(stack.IsEmpty() == true);
+		CHECK(copyStack.IsEmpty() == true);
+		CHECK_THROWS_AS(stack.GetTop(), std::logic_error);
+	}
+
 	SECTION("Self-assignment CopyStack operator =")
 	{
-		CMyStack<int> copyStack;
-
 		stack.Push(1);
 		stack.Push(2);
 
@@ -101,12 +121,74 @@ TEST_CASE("int")
 		CHECK(copyStack.IsEmpty() == true);
 		CHECK(stack.GetTop() == 2);
 	}
+
+	SECTION("MoveStack constructor")
+	{
+		stack.Push(1);
+		stack.Push(2);
+
+		CMyStack<int> moveStack(std::move(stack));
+
+		CHECK(stack.IsEmpty() == true);
+		CHECK(moveStack.IsEmpty() == false);
+		CHECK_THROWS_AS(stack.GetTop(), std::logic_error);
+
+		CHECK(moveStack.GetTop() == 2);
+	}
+
+	SECTION("MoveStack constructor empty stack")
+	{
+		CMyStack<int> moveStack(std::move(stack));
+
+		CHECK(stack.IsEmpty() == true);
+		CHECK(moveStack.IsEmpty() == true);
+
+		CHECK_THROWS_AS(stack.GetTop(), std::logic_error);
+		CHECK_THROWS_AS(moveStack.GetTop(), std::logic_error);
+	}
+
+	SECTION("MoveStack operator =")
+	{
+		stack.Push(12);
+		moveStack.Push(1);
+		moveStack.Push(2);
+		moveStack.Push(3);
+		moveStack.Push(4);
+
+		stack = std::move(moveStack);
+
+		CHECK(stack.GetTop() == 4);
+		CHECK_THROWS_AS(moveStack.GetTop(), std::logic_error);
+		CHECK(moveStack.IsEmpty() == true);
+	}
+
+	SECTION("MoveStack empty stack operator =")
+	{
+		stack = std::move(moveStack);
+
+		CHECK(stack.IsEmpty() == true);
+		CHECK(moveStack.IsEmpty() == true);
+		CHECK_THROWS_AS(stack.GetTop(), std::logic_error);
+		CHECK_THROWS_AS(moveStack.GetTop(), std::logic_error);
+	}
+
+	SECTION("Self-assignment MoveStack operator =")
+	{
+		stack.Push(1);
+		stack.Push(2);
+
+		stack = std::move(stack);
+
+		CHECK(stack.IsEmpty() == false);
+		CHECK(stack.GetTop() == 2);
+	}
 }
 
 TEST_CASE("string")
 {
 	CMyStack<std::string> stack;
 	CMyStack<std::string> copyStack;
+	CMyStack<std::string> moveStack;
 
 	SECTION("One element")
 	{
@@ -148,6 +230,7 @@ TEST_CASE("string")
 	SECTION("Empty")
 	{
 		CHECK(stack.IsEmpty() == true);
+		CHECK_THROWS_AS(stack.GetTop(), std::logic_error);
 	}
 
 	SECTION("Clear")
@@ -164,24 +247,33 @@ TEST_CASE("string")
 		CHECK(stack.IsEmpty() == true);
 	}
 
-	SECTION("CopyStack")
+	SECTION("CopyStack constructor")
 	{
 		stack.Push("Hello");
 		stack.Push("World");
 
-		CMyStack<std::string> stack2(stack);
+		CMyStack<std::string> copyStack(stack);
 
-		CHECK(stack2.IsEmpty() == false);
+		CHECK(copyStack.IsEmpty() == false);
 
-		CHECK(stack.GetTop() == stack2.GetTop());
+		CHECK(stack.GetTop() == copyStack.GetTop());
+	}
+
+	SECTION("CopyStack constructor empty stack")
+	{
+		CMyStack<std::string> copyStack(stack);
+
+		CHECK(stack.IsEmpty() == true);
+		CHECK(copyStack.IsEmpty() == true);
+
+		CHECK_THROWS_AS(stack.GetTop(), std::logic_error);
+		CHECK_THROWS_AS(copyStack.GetTop(), std::logic_error);
 	}
 
 	SECTION("CopyStack operator =")
 	{
 		stack.Push("Hello");
 		stack.Push("World");
-		copyStack.Push("Hello");
-		copyStack.Push("World");
 		copyStack.Push("How");
 		copyStack.Push("Are");
 
@@ -193,10 +285,17 @@ TEST_CASE("string")
 		CHECK(copyStack.GetTop() == "Hello");
 	}
 
+	SECTION("CopyStack empty stack operator =")
+	{
+		copyStack = stack;
+
+		CHECK(stack.IsEmpty() == true);
+		CHECK(copyStack.IsEmpty() == true);
+		CHECK_THROWS_AS(stack.GetTop(), std::logic_error);
+	}
+
 	SECTION("Self-assignment CopyStack operator =")
 	{
-		CMyStack<int> copyStack;
-
 		stack.Push("Hello");
 		stack.Push("World");
 
@@ -204,6 +303,67 @@ TEST_CASE("string")
 
 		CHECK_THROWS_AS(copyStack.GetTop(), std::logic_error);
 		CHECK(copyStack.IsEmpty() == true);
+		CHECK(stack.GetTop() == "World");
+	}
+
+	SECTION("MoveStack constructor")
+	{
+		stack.Push("Hello");
+		stack.Push("World");
+
+		CMyStack<std::string> moveStack(std::move(stack));
+
+		CHECK(stack.IsEmpty() == true);
+		CHECK(moveStack.IsEmpty() == false);
+		CHECK_THROWS_AS(stack.GetTop(), std::logic_error);
+
+		CHECK(moveStack.GetTop() == "World");
+	}
+
+	SECTION("MoveStack constructor empty stack")
+	{
+		CMyStack<std::string> moveStack(std::move(stack));
+
+		CHECK(stack.IsEmpty() == true);
+		CHECK(moveStack.IsEmpty() == true);
+
+		CHECK_THROWS_AS(stack.GetTop(), std::logic_error);
+		CHECK_THROWS_AS(moveStack.GetTop(), std::logic_error);
+	}
+
+	SECTION("MoveStack operator =")
+	{
+		stack.Push("Hello stack");
+		moveStack.Push("Hello");
+		moveStack.Push("World");
+		moveStack.Push("How");
+		moveStack.Push("Are");
+
+		stack = std::move(moveStack);
+
+		CHECK(stack.GetTop() == "Are");
+		CHECK_THROWS_AS(moveStack.GetTop(), std::logic_error);
+		CHECK(moveStack.IsEmpty() == true);
+	}
+
+	SECTION("MoveStack empty stack operator =")
+	{
+		stack = std::move(moveStack);
+
+		CHECK(stack.IsEmpty() == true);
+		CHECK(moveStack.IsEmpty() == true);
+		CHECK_THROWS_AS(stack.GetTop(), std::logic_error);
+		CHECK_THROWS_AS(moveStack.GetTop(), std::logic_error);
+	}
+
+	SECTION("Self-assignment MoveStack operator =")
+	{
+		stack.Push("Hello");
+		stack.Push("World");
+
+		stack = std::move(stack);
+
+		CHECK(stack.IsEmpty() == false);
 		CHECK(stack.GetTop() == "World");
 	}
 }
