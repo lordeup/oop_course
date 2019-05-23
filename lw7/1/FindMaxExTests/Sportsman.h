@@ -10,3 +10,4 @@ struct Sportsman
 
 bool ComparisonHeight(const Sportsman& firstSportsman, const Sportsman& secondSportsman);
 bool ComparisonWeight(const Sportsman& firstSportsman, const Sportsman& secondSportsman);
+bool ComparisonName(const Sportsman& firstSportsman, const Sportsman& secondSportsman);

@@ -9,3 +9,8 @@ bool ComparisonWeight(const Sportsman& firstSportsman, const Sportsman& secondSp
 {
 	return firstSportsman.weight < secondSportsman.weight;
 }
+
+bool ComparisonName(const Sportsman& firstSportsman, const Sportsman& secondSportsman)
+{
+	return firstSportsman.name < secondSportsman.name;
+}

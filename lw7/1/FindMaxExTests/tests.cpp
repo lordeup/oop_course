@@ -60,6 +60,15 @@ TEST_CASE("Sportsman")
 		CHECK(sportsmanMaxWeight.weight == sportsman5.weight);
 	}
 
+	SECTION("FindMax name")
+	{
+		Sportsman sportsmanMaxWeight;
+		CHECK(FindMax(sportsmanVector, sportsmanMaxWeight, ComparisonName) == true);
+		CHECK(sportsmanMaxWeight.name == sportsman4.name);
+		CHECK(sportsmanMaxWeight.height == sportsman4.height);
+		CHECK(sportsmanMaxWeight.weight == sportsman4.weight);
+	}
+
 	SECTION("FindMax empty vector ComparisonHeight")
 	{
 		Sportsman sportsman;
@@ -73,6 +82,14 @@ TEST_CASE("Sportsman")
 		Sportsman sportsman;
 		std::vector<Sportsman> emptyVector{};
 		CHECK(FindMax(emptyVector, sportsman, ComparisonWeight) == false);
+		CHECK_NOTHROW(FindMax(emptyVector, sportsman, ComparisonWeight));
+	}
+
+	SECTION("FindMax empty vector ComparisonName")
+	{
+		Sportsman sportsman;
+		std::vector<Sportsman> emptyVector{};
+		CHECK(FindMax(emptyVector, sportsman, ComparisonName) == false);
 		CHECK_NOTHROW(FindMax(emptyVector, sportsman, ComparisonWeight));
 	}
 }
