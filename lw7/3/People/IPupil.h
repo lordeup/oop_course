@@ -8,5 +8,5 @@ public:
 	virtual ~IPupil() = default;
 
 	virtual std::string GetSchoolName() const = 0;
-	virtual std::string GetSchoolClass() const = 0;
+	virtual std::string GetSchoolClassName() const = 0;
 };
