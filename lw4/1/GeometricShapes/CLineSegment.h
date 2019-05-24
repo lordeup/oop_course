@@ -7,7 +7,7 @@ class CLineSegment : public IShape
 {
 public:
 	CLineSegment(CPoint& startPoint, CPoint& endPoint, const std::string outlineColor);
-	virtual ~CLineSegment() = default;
+	~CLineSegment() = default;
 
 	double GetArea() const override;
 	double GetPerimeter() const override;

@@ -7,7 +7,7 @@ class CRectangle : public ISolidShape
 {
 public:
 	CRectangle(CPoint& leftTop, const double width, const double height, const std::string outlineColor, const std::string fillColor);
-	virtual ~CRectangle() = default;
+	~CRectangle() = default;
 
 	double GetArea() const override;
 	double GetPerimeter() const override;
